@@ -2,11 +2,12 @@ const proxyquire = require( 'proxyquire' );
 
 describe( 'The ./lib/expandNamespaces function', ()=>{
 
-  it( 'should keep paths without namespaces unchanged', ()=>{
+  const expandNamespaces = proxyquire( '../lib/expandNamespace', {
+    './loadNamespaces': sinon.stub().returns(
+      { namespaces: { somePath: '/somePath/' } } )
+  } );
 
-    const expandNamespaces = proxyquire( '../lib/expandNamespace', {
-      './loadNamespaces': sinon.stub()
-    } );
+  it( 'should keep paths without namespaces unchanged', ()=>{
 
     const expected = './somePath';
     const actual   = expandNamespaces( expected );
@@ -15,7 +16,20 @@ describe( 'The ./lib/expandNamespaces function', ()=>{
 
   } );
 
-  it.skip( 'start writing tests here', ()=>{
+  it( 'should change paths with namespaces', ()=>{
+
+    const original = '<somePath>';
+    const actual   = expandNamespaces( original, process.cwd() );
+
+    expect( actual ).not.equal( original );
+
+  } );
+
+  it( 'should return the relativePath', ()=>{
+
+    const newPath = expandNamespaces( '<somePath>', process.cwd() );
+
+    expect( newPath ).to.equal( './somePath' );
 
   } );
 

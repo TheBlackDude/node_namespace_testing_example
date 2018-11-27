@@ -80,7 +80,7 @@
     "spaced-comment": ["error", "always", { "markers": ["/", "!:"] }],
     "array-callback-return": "error",
     "curly": ["error", "multi-line", "consistent"],
-    "no-console": "error",
+    "no-console": "off",
     "no-debugger": "error",
     "callback-return": "error",
     "handle-callback-err": "error",
